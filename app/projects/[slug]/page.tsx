@@ -1,69 +1,94 @@
-import { PortableText, type SanityDocument } from 'next-sanity'
-import { client } from '@/sanity/lib/client'
-import { urlFor } from '@/sanity/lib/image'
-import Link from 'next/link'
-import Image from 'next/image'
+import { sanityFetch } from "@/sanity/lib/live";
+import { PROJECT_QUERY } from "@/sanity/lib/queries";
+import { notFound } from "next/navigation";
+import Link from "next/link";
+import Image from "next/image"
+import { PortableText } from "@portabletext/react";
+import { urlFor } from "@/sanity/lib/image"; // image helper van sanity, prevent image issues
 
-type Project = {
-    title: string
-    excerpt?: string
-    slug: string
-    cover?: never
-    expertise: string[]
-    tags: string[]
-    body?: never[]
-    date?: string
-}
+export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
+    // unwrap the promise
+    const { slug } = await params;
 
-const PROJECT_QUERY = `*[
-  _type == "project" &&
-  slug.current == $slug &&
-  !(_id in path("drafts.**"))
-][0]{
-  _id,
-  title,
-  excerpt,
-  "slug": slug.current,
-  cover,
-  expertise,
-  tags,
-  body,
-  date
-}`
+    // fetch project
+    const { data: project } = await sanityFetch({
+        query: PROJECT_QUERY,
+        params: { slug },
+    });
 
-const options = { next: { revalidate: 30 } }
+    // debug log (optional)
+    console.log("slug:", slug);
+    console.log("project:", project);
 
-export default async function PostPage({ params, }: { params: { slug: string }
-}) {
-    const project = await client.fetch<Project>(PROJECT_QUERY, { slug: params.slug },
-        { next: { revalidate: 30 } }
-    )
-
-    if (!project) return null
-
-    const projectImageUrl = project.cover
-        ? urlFor(project.cover).width(550).height(310).url()
-        : null
+    if (!project) notFound();
 
     return (
-        <main className="container mx-auto min-h-screen max-w-3xl p-8 flex flex-col gap-4">
-            <Link href="/">← Back to posts</Link>
+        <section className="container mx-auto p-12 grid gap-6">
+            {/* Title */}
+            <h1 className="text-4xl font-bold text-balance">{project.title}</h1>
 
-            {projectImageUrl && (
-                <Image
-                    src={projectImageUrl}
-                    alt={project.title}
-                    width={550}
-                    height={310}
-                    className="aspect-video rounded-xl"
-                />
+            {/* Excerpt */}
+            {project.excerpt && <p className="text-gray-500">{project.excerpt}</p>}
+
+
+            {project.cover && (
+                <div className="relative w-full h-[500px] mt-4 rounded-md overflow-hidden">
+                    <Image
+                        src={urlFor(project.cover).width(1200).url()}
+                        alt={project.title}
+                        fill
+                        style={{ objectFit: "cover" }}
+                        priority
+                    />
+                </div>
             )}
 
-            <h1 className="text-4xl font-bold">{project.title}</h1>
 
-            {Array.isArray(project.body) && (
-                <PortableText value={project.body} />
+            {/* Tags */}
+            {project.tags?.length > 0 && (
+                <div className="flex flex-wrap gap-2 mt-4">
+                    {project.tags.map((tag: string) => (
+                        <span
+                            key={tag}
+                            className="bg-blue-100 text-blue-800 px-2 py-1 rounded-md text-sm"
+                        >
+              {tag}
+            </span>
+                    ))}
+                </div>
             )}
-        </main>
-    )
+
+            {/* Expertise */}
+            {project.expertise?.length > 0 && (
+                <div className="flex flex-wrap gap-2 mt-2">
+                    {project.expertise.map((exp: string) => (
+                        <span
+                            key={exp}
+                            className="bg-green-100 text-green-800 px-2 py-1 rounded-md text-sm"
+                        >
+              {exp}
+            </span>
+                    ))}
+                </div>
+            )}
+
+            {/* Body (Portable Text) */}
+            {project.body && (
+                <article className="prose mt-6">
+                    <PortableText value={project.body} />
+                </article>
+            )}
+
+            {/* Date */}
+            {project.date && (
+                <p className="mt-6 text-sm text-gray-400">
+                    Published on {new Date(project.date).toLocaleDateString()}
+                </p>
+            )}
+
+            <Link href="/projects" className="mt-6 inline-block text-blue-500 hover:underline">
+                &larr; Return to index
+            </Link>
+        </section>
+    );
 }

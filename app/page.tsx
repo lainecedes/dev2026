@@ -1,10 +1,11 @@
-import Image from "next/image";
-import Main from "./components/Main";
+import { client } from "@/sanity/lib/client"
+import Canvas from "@/app/components/sections/Canvas"
+import { PROJECTS_QUERY } from "@/sanity/lib/queries"
+import { Project } from "@/app/components/shared/types"
 
-export default function Home() {
-  return (
-      <>
-      <Main />
-      </>
-  );
+const options = { next: { revalidate: 60 } }
+
+export default async function Index() {
+    const projects: Project[] = await client.fetch(PROJECTS_QUERY, {}, options)
+    return <Canvas projects={projects} />
 }
