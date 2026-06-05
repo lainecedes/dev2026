@@ -1,26 +1,20 @@
-import localFont from "next/font/local"
-import { Geist_Mono, Host_Grotesk } from "next/font/google"
+import { Geist_Mono, DM_Sans, Zalando_Sans_Expanded } from "next/font/google"
 
-// Chaney Extended
-export const chaneyExtended = localFont({
-    src: [{ path: './chaney/chaney-extended-webfont.woff2', weight: '400', style: 'normal' }],
-    variable: '--font-chaney-extended',
-})
-
-// Chaney Ultra Extended
-export const chaneyUltraExtended = localFont({
-    src: [{ path: './chaney/chaney-ultraextended-webfont.woff2', weight: '400', style: 'normal' }],
-    variable: '--font-chaney-ultra-extended',
-})
-
-// Space Grotesk
-export const hostGrotesk = Host_Grotesk({
-    variable: '--font-host-grotesk',
+// DM Sans
+export const dmSans = DM_Sans({
+    variable: '--font-body',
     subsets: ['latin'],
 })
 
 // Geist Mono
 export const geistMono = Geist_Mono({
-    variable: '--font-geist-mono',
+    variable: '--font-mono',
     subsets: ['latin'],
 })
+
+// Zalando Sans Expanded
+export const zalandoSansExpanded = Zalando_Sans_Expanded({
+    variable: '--font-display',
+    subsets: ['latin'],
+})
+

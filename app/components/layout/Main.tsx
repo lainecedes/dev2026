@@ -1,13 +1,9 @@
-import React from "react";
-
-type MainProps = {
-    children: React.ReactNode
-}
+import type { MainProps } from "@/app/components/shared/types";
 
 export default function Main({ children }: MainProps) {
     return (
-            <main>
-                { children }
-            </main>
+        <main className="w-screen bg-bg">
+            { children }
+        </main>
     )
 }

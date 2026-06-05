@@ -1,28 +1,114 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
-
 :root {
     color-scheme: light;
-    --font-host-grotesk: "Host Grotesk", sans-serif;
+    --font-dm-sans: "DM Sans", sans-serif;
     --font-geist-mono: "Geist Mono", sans-serif;
-    --font-chaney-extended: "Chaney", sans-serif;
-    --font-chaney-ultra-extended: "Chaney", sans-serif;
+    --font-zalando-sans-expanded: "Zalando Sans Expanded", sans-serif;
 
-    --background: #231b2f;
-    --foreground: #FDFFFC;
+    /* colors */
+    --color-bg: #F2EEE8;            /* paper */
+    --color-accent: #B794FF;        /* accent-display, big type */
+    --color-accent-ui: #8f68e8;     /* accent-ui, small text & controls */
+    --color-dark: #141318;          /* ink */
+    --color-card: #EBE6DD;          /* paper-2, hover/card surface */
+    --color-footer-text: #F2EEE8;
+
+    --color-ink-2: #2A2830;   /* slightly lifted ink for secondary body text */
+    --color-mute:  #6E6A74;   /* muted labels (small caps / metadata) */
+    --rule: rgba(20, 19, 24, 0.18);  /* hairline dividers on paper */
+}
+
+@keyframes scrollx {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+}
+
+@keyframes scrollx-rev {
+    from { transform: translateX(-50%); }
+    to   { transform: translateX(0); }
+}
+
+.animate-scrollx     { animation: scrollx     30s linear infinite; }
+.animate-scrollx-rev { animation: scrollx-rev 30s linear infinite; }
+
+body:has([data-hide-footer]) footer {
+    display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    body,
+    a,
+    button,
+    [role="button"] {
+        cursor: none;
+    }
 }
 
 @theme inline {
-    --color-background: var(--background);
-    --color-foreground: var(--foreground);
-    --font-body: var(--font-host-grotesk);
+    --color-bg: var(--color-bg);
+    --color-accent: var(--color-accent);
+    --color-accent-ui: var(--color-accent-ui);
+    --color-dark: var(--color-dark);
+    --color-card: var(--color-card);
+    --color-ink-2: var(--color-ink-2);
+    --color-mute: var(--color-mute);
+    --color-rule: var(--rule);
+    --color-footer-text: var(--color-footer-text);
+    --font-body: var(--font-dm-sans);
     --font-mono: var(--font-geist-mono);
-    --font-heading-extended: var(--font-chaney-extended);
-    --font-heading-ultra-extended: var(--font-chaney-ultra-extended);
+    --font-display: var(--font-zalando-sans-expanded);
 }
 
-body {
-    /*background-color: var(--foreground);*/
-    font-family: Arial, Helvetica, sans-serif;
+
+
+.text-custom {
+    font-weight: 700;
+    letter-spacing: -0.050em;
+    line-height: 1;
+}
+
+.text-custom-italic {
+    font-style: italic;
+    font-weight: 700;
+    letter-spacing: -0.050em;
+    line-height: 1;
+}
+
+.hover-bracket {
+    position: relative;
+    display: inline-block;
+}
+
+.hover-bracket::before,
+.hover-bracket::after {
+    position: absolute;
+    top: 50%;
+    color: var(--color-accent);
+    font-family: monospace;
+    font-size: var(--bracket-size, 1em);
+    font-weight: var(--bracket-weight, 400);
+    opacity: 0;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.hover-bracket::before {
+    content: '[';
+    right: 100%;
+    padding-right: 3px;
+    transform: translateY(-50%) translateX(4px);
+}
+
+.hover-bracket::after {
+    content: ']';
+    left: 100%;
+    padding-left: 3px;
+    transform: translateY(-50%) translateX(-4px);
+}
+
+.hover-bracket:hover::before,
+.hover-bracket:hover::after {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
 }
