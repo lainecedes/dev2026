@@ -20,15 +20,50 @@ export const PROJECTS_QUERY = defineQuery(`*[ _type == "project" && defined(slug
   tags
 }`)
 
+// Archive -> all projects, newest first
+export const ARCHIVE_QUERY = defineQuery(`*[ _type == "project" && defined(slug.current)] | order(year desc, idx asc){
+  _id,
+  "slug": slug.current,
+  idx,
+  year,
+  title,
+  tag,
+  kind,
+  col,
+  description
+}`)
+
 // project -> return one project only
 export const PROJECT_QUERY = defineQuery(`*[ _type == "project" && slug.current == $slug][0]{
   _id,
   title,
-  description,
   "slug": slug.current,
-  cover,
-  expertise,
-  tags,
-  body,
-  date
+  idx,
+  year,
+  tag,
+  kind,
+  client,
+  role,
+  stack,
+  duration,
+  live,
+  col,
+  overview,
+  sections[]{
+    heading,
+    body,
+    image{ ..., "alt": alt }
+  },
+  credits,
+  "prev": *[_type == "project" && defined(idx) && idx < ^.idx] | order(idx desc)[0]{
+    "slug": slug.current, idx, kind, title, year, col
+  },
+  "next": *[_type == "project" && defined(idx) && idx > ^.idx] | order(idx asc)[0]{
+    "slug": slug.current, idx, kind, title, year, col
+  }
+}`)
+
+// All slugs for generateStaticParams
+export const PROJECT_SLUGS_QUERY = defineQuery(`*[_type == "project" && defined(slug.current)]{
+  "slug": slug.current
 }`)
