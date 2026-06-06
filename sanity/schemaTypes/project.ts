@@ -83,7 +83,7 @@ export const project = defineType({
             name: 'live',
             type: 'string',
             title: 'Live',
-            description: 'Live URL or label shown in the meta rail, e.g. “halfstep.fm”. Use “—” if not public.',
+            description: 'Live site URL shown as an external link, e.g. “halfstep.fm” or “https://halfstep.fm”. Leave empty if not public.',
         }),
 
         defineField({
@@ -94,10 +94,42 @@ export const project = defineType({
         }),
 
         defineField({
+            name: 'keyVisual',
+            type: 'image',
+            title: 'Key Visual',
+            description: 'Main project visual shown above the marquee. Transparent PNGs keep the striped background visible.',
+            options: { hotspot: true },
+            fields: [
+                defineField({
+                    name: 'alt',
+                    type: 'string',
+                    title: 'Alt text',
+                    description: 'Describe the key visual for screen readers.',
+                    validation: (Rule) => Rule.required(),
+                }),
+            ],
+        }),
+
+        defineField({
+            name: 'keyVisualBackground',
+            type: 'string',
+            title: 'Key Visual Background',
+            description: 'Optional hex colour behind the key visual and stripes. Falls back to the project Colour.',
+        }),
+
+        defineField({
             name: 'overview',
             type: 'text',
-            title: 'Overview tagline',
-            description: 'A one- or two-sentence hook shown large under the “§ Overview” heading.',
+            title: 'Introduction',
+            description: 'Introductory copy shown before the detailed project sections. Use blank lines to create paragraph breaks.',
+            rows: 6,
+        }),
+
+        defineField({
+            name: 'disclaimer',
+            type: 'text',
+            title: 'Disclaimer',
+            description: 'Optional important note shown between the introduction and project sections. Use blank lines to create paragraph breaks.',
             rows: 4,
         }),
 
@@ -121,69 +153,48 @@ export const project = defineType({
                             name: 'body',
                             type: 'text',
                             title: 'Body',
-                            description: 'Paragraph copy for this section. Plain text only.',
+                            description: 'Paragraph copy for this section. Use blank lines to create paragraph breaks.',
                             rows: 5,
                         }),
                         defineField({
-                            name: 'image',
-                            type: 'image',
-                            title: 'Image',
-                            description: 'Optional. Renders below this section’s body. Add alt text under “Edit details”.',
-                            options: { hotspot: true },
-                            fields: [
-                                defineField({
-                                    name: 'alt',
-                                    type: 'string',
-                                    title: 'Alt text',
-                                    description: 'Describe the image for screen readers.',
+                            name: 'images',
+                            type: 'array',
+                            title: 'Images',
+                            description: 'Optional. Add up to two images. They render stacked below the section body.',
+                            validation: (Rule) => Rule.max(2),
+                            of: [
+                                defineArrayMember({
+                                    type: 'image',
+                                    options: { hotspot: true },
+                                    fields: [
+                                        defineField({
+                                            name: 'alt',
+                                            type: 'string',
+                                            title: 'Alt text',
+                                            description: 'Describe the image. This is also shown below the image.',
+                                            validation: (Rule) => Rule.required(),
+                                        }),
+                                    ],
                                 }),
                             ],
                         }),
                     ],
                     preview: {
-                        select: { title: 'heading', subtitle: 'body', media: 'image' },
+                        select: { title: 'heading', subtitle: 'body', media: 'images.0' },
                     },
                 }),
             ],
         }),
 
         defineField({
-            name: 'credits',
-            type: 'array',
-            title: 'Credits',
-            description: 'Key/value rows shown under “§ Credits”, e.g. Label “Photography” → Value “Jane Doe”.',
-            of: [
-                defineArrayMember({
-                    type: 'object',
-                    name: 'credit',
-                    fields: [
-                        defineField({
-                            name: 'k',
-                            type: 'string',
-                            title: 'Label',
-                            description: 'Role or contribution, e.g. “Photography”, “Sound design”.',
-                        }),
-                        defineField({
-                            name: 'v',
-                            type: 'string',
-                            title: 'Value',
-                            description: 'Person or studio credited, e.g. “Jane Doe”.',
-                        }),
-                    ],
-                    preview: {
-                        select: { title: 'k', subtitle: 'v' },
-                    },
-                }),
-            ],
+            name: 'conclusion',
+            type: 'text',
+            title: 'Conclusion',
+            description: 'Optional closing reflection shown after the project sections. Use blank lines to create paragraph breaks.',
+            rows: 6,
         }),
 
         // legacy / supplementary fields kept for the index + studio
-        defineField({
-            name: 'description',
-            type: 'text',
-            title: 'Description',
-            description: 'Short blurb used by the homepage projects index. Not shown on the case-study page.',
-        }),
         defineField({
             name: 'cover',
             type: 'image',
@@ -191,24 +202,11 @@ export const project = defineType({
             description: 'Cover used by the homepage projects grid. The case-study hero uses the “Colour” field instead.',
         }),
         defineField({
-            name: 'expertise',
-            type: 'array',
-            of: [{ type: 'string' }],
-            title: 'Expertise',
-            description: 'Legacy taxonomy. Prefer “Stack” for new projects.',
-        }),
-        defineField({
             name: 'tags',
             type: 'array',
             of: [{ type: 'string' }],
             title: 'Tags',
             description: 'Legacy taxonomy used by the homepage tile chips. Prefer “Kind” + “Tag” for the case-study page.',
-        }),
-        defineField({
-            name: 'body',
-            type: 'blockContent',
-            title: 'Body',
-            description: 'Legacy rich-text body. Prefer “Sections” for new projects.',
         }),
     ],
 })

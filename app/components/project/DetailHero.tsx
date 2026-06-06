@@ -5,6 +5,9 @@ import Colophon from "./Colophon";
 
 export default function DetailHero({ project, accent }: { project: ProjectDetail; accent: string }) {
   const p = project;
+  const titleWords = p.title.trim().split(/\s+/);
+  const lastTitleWord = titleWords.length > 1 ? titleWords.pop() : null;
+
   return (
       <section className="relative overflow-hidden border-b border-rule">
           <WarpGrid density={13} distortion={18} accent={accent}/>
@@ -17,7 +20,13 @@ export default function DetailHero({ project, accent }: { project: ProjectDetail
 
               <div className="flex flex-col justify-center gap-3">
                   <h1 className="m-0 max-w-[11ch] font-display text-custom-italic text-6xl text-dark text-balance sm:text-7xl md:text-8xl lg:text-9xl xl:text-[10rem]">
-                      {p.title}
+                      {lastTitleWord ? (
+                          <>
+                              {titleWords.join(" ")} <span className="text-accent">{lastTitleWord}</span>
+                          </>
+                      ) : (
+                          p.title
+                      )}
                   </h1>
                   {p.tag && (
                       <span className="font-display text-custom-italic text-xl text-mute md:text-2xl">

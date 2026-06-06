@@ -1,5 +1,7 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { ProjectCard } from "@/app/components/shared/types";
+import { urlFor } from "@/sanity/lib/image";
 
 export default function NextUp({ prev, next }: { prev?: ProjectCard | null; next?: ProjectCard | null }) {
   const cards = (
@@ -37,10 +39,23 @@ export default function NextUp({ prev, next }: { prev?: ProjectCard | null; next
                 className="absolute inset-0 opacity-20"
                 style={{ background: "repeating-linear-gradient(-35deg, currentColor 0 1px, transparent 1px 18px)" }}
               />
-              <div className="absolute left-4 top-4 text-[10px] font-semibold tracking-[0.12em] md:left-5 md:top-5">
+
+              {q.cover?.asset && (
+                <>
+                  <Image
+                    src={urlFor(q.cover).width(1200).url()}
+                    alt={`${q.title} cover`}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-dark/65 via-transparent to-dark/20" />
+                </>
+              )}
+
+              <div className={`absolute left-4 top-4 z-10 text-[10px] font-semibold tracking-[0.12em] md:left-5 md:top-5 ${q.cover?.asset ? "text-bg" : ""}`}>
                 {role === "prev" ? "← PREVIOUS" : "NEXT →"}
               </div>
-              <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between gap-4 md:bottom-5 md:left-5 md:right-5">
+              <div className={`absolute bottom-4 left-4 right-4 z-10 flex items-end justify-between gap-4 md:bottom-5 md:left-5 md:right-5 ${q.cover?.asset ? "text-bg" : ""}`}>
                 <div className="min-w-0">
                   <div className="font-display font-bold tracking-tight50 text-[13px] opacity-70">
                     {q.idx} · {q.kind}

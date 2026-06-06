@@ -29,7 +29,7 @@ type ArchiveProject = {
     tag?: string;
     kind?: string;
     col?: string;
-    description?: string;
+    cover?: object;
 };
 
 function toArchiveItem(p: ArchiveProject): ArchiveItem {
@@ -43,8 +43,8 @@ function toArchiveItem(p: ArchiveProject): ArchiveItem {
         bg,
         fg: fgFor(bg),
         variant: variantFor(p.idx),
-        note: p.description,
         href: `/archive/${p.slug}`,
+        cover: p.cover,
     };
 }
 

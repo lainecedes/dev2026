@@ -111,8 +111,8 @@ export const FooterLinkGroups: FooterLinkGroup[] = [
     {
         title: "External",
         links: [
-            { label: "Github", href: "#" },
-            { label: "LinkedIn", href: "#" },
+            { label: "Github", href: "https://github.com/lainecedes" },
+            { label: "LinkedIn", href: "https://www.linkedin.com/in/elainewilberforce/" },
         ],
     },
 ]
@@ -169,18 +169,24 @@ export type ProjectCard = {
     title: string
     year?: string
     col?: string
+    cover?: ProjectImage | null
+}
+
+export type ProjectImage = {
+    asset?: { _ref: string; _type: string }
+    dimensions?: {
+        width: number
+        height: number
+        aspectRatio: number
+    }
+    alt?: string
 }
 
 export type ProjectSection = {
     heading: string
     body: string
-    image?: {
-        asset?: { _ref: string; _type: string }
-        alt?: string
-    } | null
+    images?: ProjectImage[]
 }
-
-export type ProjectCredit = { k: string; v: string }
 
 export type ProjectDetail = {
     _id: string
@@ -196,9 +202,12 @@ export type ProjectDetail = {
     duration?: string
     live?: string
     col?: string
-    overview?: string
+    keyVisual?: ProjectImage | null
+    keyVisualBackground?: string
+    introduction?: string
+    disclaimer?: string
     sections?: ProjectSection[]
-    credits?: ProjectCredit[]
+    conclusion?: string
     prev?: ProjectCard | null
     next?: ProjectCard | null
 }

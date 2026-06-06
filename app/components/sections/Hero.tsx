@@ -102,7 +102,7 @@ export default function Hero() {
                     <span ref={(el) => { linesRef.current[1] = el }} className="block">doesn't fit the grid.</span>
                 </p>
                 <p ref={subtitleRef} className="font-body text-lg md:text-base leading-snug w-full sm:w-2/4">
-                    A 24-year old creative designer with a strong background in front-end development
+                    A 24-year old creative designer with a strong background in front-end development.
                 </p>
             </div>
         </section>

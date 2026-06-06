@@ -11,8 +11,10 @@ import type { ProjectDetail } from "@/app/components/shared/types";
 import Marquee from "@/app/components/dynamic/Marquee";
 import DetailHero from "@/app/components/project/DetailHero";
 import KeyVisual from "@/app/components/project/KeyVisual";
-import Overview from "@/app/components/project/Overview";
+import Introduction from "@/app/components/project/Introduction";
+import Disclaimer from "@/app/components/project/Disclaimer";
 import Sections from "@/app/components/project/Sections";
+import Conclusion from "@/app/components/project/Conclusion";
 import NextUp from "@/app/components/project/NextUp";
 import { SiteAccent } from "@/app/components/shared/types";
 
@@ -59,8 +61,10 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                 ].filter((x): x is string => Boolean(x))}
             />
 
-            <Overview project={project} />
+            <Introduction project={project} />
+            <Disclaimer project={project} />
             <Sections project={project} />
+            <Conclusion project={project} />
             <NextUp prev={project.prev} next={project.next} />
         </div>
     );

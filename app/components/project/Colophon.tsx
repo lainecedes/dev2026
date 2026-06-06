@@ -4,7 +4,12 @@ import type { ProjectDetail } from "@/app/components/shared/types";
 // Collapses to 2×3 below md.
 export default function Colophon({ project }: { project: ProjectDetail }) {
   const p = project;
-  const isUrl = (s?: string) => !!s && /^https?:\/\//i.test(s);
+  const liveValue = p.live?.trim();
+  const liveHref = liveValue && liveValue !== "—"
+    ? /^https?:\/\//i.test(liveValue)
+      ? liveValue
+      : `https://${liveValue}`
+    : null;
 
   const rows: { label: string; value: React.ReactNode }[] = [
     { label: "Year", value: p.year ?? "—" },
@@ -14,19 +19,15 @@ export default function Colophon({ project }: { project: ProjectDetail }) {
     { label: "Duration", value: p.duration ?? "—" },
     {
       label: "Live",
-      value: p.live ? (
-        isUrl(p.live) ? (
-          <a
-            href={p.live}
-            target="_blank"
-            rel="noreferrer"
-            className="border-b border-current transition-colors hover:text-accent"
-          >
-            {p.live.replace(/^https?:\/\//i, "")} ↗
-          </a>
-        ) : (
-          p.live
-        )
+      value: liveHref ? (
+        <a
+          href={liveHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="border-b border-current transition-colors hover:text-accent"
+        >
+          {liveValue?.replace(/^https?:\/\//i, "")} ↗
+        </a>
       ) : (
         <span className="text-mute">—</span>
       ),

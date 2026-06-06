@@ -15,8 +15,6 @@ export const PROJECTS_QUERY = defineQuery(`*[ _type == "project" && defined(slug
   title,
   "slug": slug.current,
   cover,
-  description,
-  expertise,
   tags
 }`)
 
@@ -30,7 +28,7 @@ export const ARCHIVE_QUERY = defineQuery(`*[ _type == "project" && defined(slug.
   tag,
   kind,
   col,
-  description
+  cover
 }`)
 
 // project -> return one project only
@@ -48,18 +46,25 @@ export const PROJECT_QUERY = defineQuery(`*[ _type == "project" && slug.current 
   duration,
   live,
   col,
-  overview,
+  keyVisual{ ..., "alt": alt },
+  keyVisualBackground,
+  "introduction": overview,
+  disclaimer,
   sections[]{
     heading,
     body,
-    image{ ..., "alt": alt }
+    images[]{
+      ...,
+      "alt": alt,
+      "dimensions": asset->metadata.dimensions
+    }
   },
-  credits,
+  conclusion,
   "prev": *[_type == "project" && defined(idx) && idx < ^.idx] | order(idx desc)[0]{
-    "slug": slug.current, idx, kind, title, year, col
+    "slug": slug.current, idx, kind, title, year, col, cover
   },
   "next": *[_type == "project" && defined(idx) && idx > ^.idx] | order(idx asc)[0]{
-    "slug": slug.current, idx, kind, title, year, col
+    "slug": slug.current, idx, kind, title, year, col, cover
   }
 }`)
 

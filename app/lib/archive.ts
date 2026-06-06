@@ -10,8 +10,8 @@ export type ArchiveItem = {
     fg: string;
     variant: ArchiveVariant;
     pin?: string;
-    note?: string;
     href?: string;
+    cover?: object;
 };
 
 const Variants: ArchiveVariant[] = ["stripes", "grid", "dots", "flat", "blocks", "rule"];

@@ -4,7 +4,7 @@ export default function AboutSection({
     accent = SiteAccent,
     photoSrc,
     photoAlt = "Portrait",
-    photoCaption = "me, mid-deploy",
+    photoCaption = "this is me, allegedly",
     proof = DefaultProof,
     className = "",
 }: AboutSectionProps) {
@@ -19,13 +19,13 @@ export default function AboutSection({
                 className="grid grid-cols-1 md:grid-cols-[5fr_7fr] items-start gap-10 md:gap-14 px-5 md:px-12 py-14 md:py-20 border-b border-dark/15"
             >
                 {/* left column — heading + polaroid */}
-                <div className="flex flex-col">
+                <div className="flex flex-col md:min-h-[520px]">
                     <h2 className="font-display text-custom text-[clamp(52px,6.5vw,104px)] text-dark">
                         Builds things<br />with <span className="text-accent">grit.</span>
                     </h2>
 
                     {/* polaroid */}
-                    <div className="relative w-[clamp(180px,18vw,220px)] mt-10 pt-4 px-4 pb-14 rounded-xs -rotate-[2.5deg] bg-[#fffbf3] shadow-[0_18px_30px_rgba(20,19,24,0.16),0_3px_6px_rgba(20,19,24,0.1),inset_0_0_0_0.5px_rgba(20,19,24,0.06)] transition-[transform,box-shadow] duration-400 ease-[cubic-bezier(0.2,0.8,0.2,1)] hover:-rotate-1 hover:-translate-y-2.5 hover:scale-[1.02] hover:shadow-[0_26px_44px_rgba(20,19,24,0.2),0_5px_10px_rgba(20,19,24,0.12)] motion-reduce:transition-none">
+                    <div className="relative mx-auto mt-10 w-[clamp(180px,18vw,220px)] -rotate-[2.5deg] bg-[#fffbf3] px-4 pb-14 pt-4 shadow-[0_18px_30px_rgba(20,19,24,0.16),0_3px_6px_rgba(20,19,24,0.1),inset_0_0_0_0.5px_rgba(20,19,24,0.06)] transition-[transform,box-shadow] duration-400 ease-[cubic-bezier(0.2,0.8,0.2,1)] hover:-rotate-1 hover:-translate-y-2.5 hover:scale-[1.02] hover:shadow-[0_26px_44px_rgba(20,19,24,0.2),0_5px_10px_rgba(20,19,24,0.12)] motion-reduce:transition-none md:mb-4 md:mr-[-1.5rem] md:mt-auto">
                         <span
                             aria-hidden
                             className="absolute -top-3 left-1/2 w-24 h-6 -translate-x-1/2 -rotate-3 mix-blend-multiply border-l border-r border-dashed border-dark/15"
@@ -41,14 +41,14 @@ export default function AboutSection({
                                 </span>
                             )}
                         </div>
-                        <div className="absolute left-4 bottom-3 max-w-23 text-left font-display italic font-medium tracking-[-0.01em] text-[13px] leading-[1.15] text-dark">
+                        <div className="absolute bottom-3 left-4 max-w-[130px] text-left font-display italic font-medium text-[13px] leading-[1.15] text-dark">
                             {photoCaption}
                         </div>
                     </div>
                 </div>
 
                 {/* right column — lead text + chips */}
-                <div className="flex flex-col gap-8">
+                <div className="flex flex-col gap-8 md:pt-16">
                     <p className="text-lg text-dark text-pretty">
                         I'm Elaine Wilberforce, also known as Lainey, a creative developer from Amsterdam.
                         I studied Communication and Multimedia Design at the Amsterdam University of Applied Sciences,

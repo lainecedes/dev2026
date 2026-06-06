@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import type { ProjectDetail } from "@/app/components/shared/types";
 import { urlFor } from "@/sanity/lib/image";
+import Lightbox from "@/app/components/ui/Lightbox";
 
 export default function Sections({ project }: { project: ProjectDetail }) {
   const sections = project.sections ?? [];
@@ -27,27 +27,42 @@ export default function Sections({ project }: { project: ProjectDetail }) {
         </nav>
 
         <div className="flex flex-col gap-12 md:gap-16">
-          {sections.map((s, i) => (
-            <article key={s.heading} id={`s${i}`} className="flex flex-col gap-4 scroll-mt-24">
-              <h2 className="m-0 font-display text-custom text-3xl leading-none md:text-4xl">
-                <span className="text-mute italic mr-2">0{i + 1} /</span>
-                {s.heading}
-              </h2>
-              <p className="m-0 max-w-[62ch] text-base leading-[1.55] text-ink-2 text-pretty md:text-[17px]">
-                {s.body}
-              </p>
-              {s.image?.asset && (
-                <div className="relative mt-2 aspect-[4/3] w-full overflow-hidden rounded-sm border border-rule sm:aspect-[16/9]">
-                  <Image
-                    src={urlFor(s.image).width(1400).url()}
-                    alt={s.image.alt ?? s.heading}
-                    fill
-                    style={{ objectFit: "cover" }}
-                  />
-                </div>
-              )}
-            </article>
-          ))}
+          {sections.map((s, i) => {
+            const images = s.images?.slice(0, 2) ?? [];
+
+            return (
+              <article key={s.heading} id={`s${i}`} className="flex flex-col gap-4 scroll-mt-24">
+                <h2 className="m-0 font-display text-custom text-3xl leading-none md:text-4xl">
+                  <span className="text-mute italic mr-2">0{i + 1} /</span>
+                  {s.heading}
+                </h2>
+                <p className="m-0 max-w-[62ch] whitespace-pre-line text-base leading-[1.55] text-ink-2 text-pretty md:text-[17px]">
+                  {s.body}
+                </p>
+
+                {images.length > 0 && (
+                  <div className={`mt-3 grid gap-8 md:gap-6 ${images.length === 2 ? "md:grid-cols-2" : "grid-cols-1"}`}>
+                    {images.map((image, imageIndex) => (
+                      <figure key={`${s.heading}-${imageIndex}`} className="m-0 flex flex-col gap-3">
+                        <Lightbox
+                          src={urlFor(image).width(2000).url()}
+                          alt={image.alt ?? s.heading}
+                          width={image.dimensions?.width ?? 1600}
+                          height={image.dimensions?.height ?? 1200}
+                          sizes={images.length === 2 ? "(min-width: 768px) 50vw, 100vw" : "100vw"}
+                        />
+                        {image.alt && (
+                          <figcaption className="max-w-[70ch] font-mono text-[11px] leading-[1.5] text-mute">
+                            {image.alt}
+                          </figcaption>
+                        )}
+                      </figure>
+                    ))}
+                  </div>
+                )}
+              </article>
+            );
+          })}
         </div>
       </div>
     </section>

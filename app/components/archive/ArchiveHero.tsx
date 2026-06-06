@@ -10,7 +10,7 @@ export default function ArchiveHero() {
           The <em className="text-custom-italic text-accent">Archive.</em>
         </h1>
 
-        <div className="max-w-280 font-display text-custom text-lg text-dark text-pretty sm:text-2xl md:text-3xl lg:text-4xl">
+        <div className="max-w-[58rem] font-display text-custom text-base leading-[1.12] text-dark text-pretty sm:text-xl md:text-2xl lg:text-3xl">
           <p className="m-0 mb-3">
             Everything I've made and kept around, in roughly the order I made it.
             Some I'm still proud of, some I keep because they taught me something,
