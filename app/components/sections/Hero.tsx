@@ -109,7 +109,7 @@ export default function Hero() {
 
             <div className="relative z-10 -mb-24 flex w-full flex-col-reverse gap-3 md:mb-0 md:w-auto md:flex-col md:gap-2">
                 <p ref={subtitleRef} className="w-full font-body text-lg leading-snug md:w-2/6 md:text-base">
-                    A 24-year old creative designer with a strong background in front-end development.
+                    A 25-year old creative designer with a strong background in front-end development.
                 </p>
                 <p className="font-display text-custom-italic text-5xl md:text-7xl text-accent">
                     <span ref={(el) => { linesRef.current[0] = el }} className="block">
