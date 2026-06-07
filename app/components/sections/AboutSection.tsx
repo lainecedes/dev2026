@@ -1,7 +1,7 @@
-import { DefaultProof, SiteAccent, type AboutSectionProps } from "@/app/components/shared/types"
+import Image from "next/image"
+import { DefaultProof, type AboutSectionProps } from "@/app/components/shared/types"
 
 export default function AboutSection({
-    accent = SiteAccent,
     photoSrc,
     photoAlt = "Portrait",
     photoCaption = "this is me, allegedly",
@@ -9,45 +9,50 @@ export default function AboutSection({
     className = "",
 }: AboutSectionProps) {
     return (
-        <div
-            className={`bg-bg text-dark font-body text-[15px] leading-[1.45] antialiased ${className}`}
-            style={{ ["--accent" as string]: accent }} >
-
-            {/* 1 · Intro card */}
+        <div className={`bg-bg font-body text-sm leading-relaxed text-dark antialiased ${className}`}>
             <section
                 id="about"
-                className="grid grid-cols-1 md:grid-cols-[5fr_7fr] items-start gap-10 md:gap-14 px-5 md:px-12 py-14 md:py-20 border-b border-dark/15"
+                className="grid grid-cols-1 items-start gap-10 border-b border-dark/15 px-5 py-14 md:grid-cols-[5fr_7fr] md:gap-14 md:px-12 md:py-20"
             >
-                {/* left column — heading + polaroid */}
-                <div className="flex flex-col md:min-h-[520px]">
-                    <h2 className="font-display text-custom text-[clamp(52px,6.5vw,104px)] text-dark">
+                <div className="flex flex-col md:min-h-130">
+                    <h2 className="font-display text-custom text-5xl text-dark sm:text-6xl lg:text-8xl">
                         Builds things<br />with <span className="text-accent">grit.</span>
                     </h2>
 
-                    {/* polaroid */}
-                    <div className="relative mx-auto mt-10 w-[clamp(180px,18vw,220px)] -rotate-[2.5deg] bg-[#fffbf3] px-4 pb-14 pt-4 shadow-[0_18px_30px_rgba(20,19,24,0.16),0_3px_6px_rgba(20,19,24,0.1),inset_0_0_0_0.5px_rgba(20,19,24,0.06)] transition-[transform,box-shadow] duration-400 ease-[cubic-bezier(0.2,0.8,0.2,1)] hover:-rotate-1 hover:-translate-y-2.5 hover:scale-[1.02] hover:shadow-[0_26px_44px_rgba(20,19,24,0.2),0_5px_10px_rgba(20,19,24,0.12)] motion-reduce:transition-none md:mb-4 md:mr-[-1.5rem] md:mt-auto">
+                    <div className="relative mx-auto mt-10 w-56 -rotate-3 bg-white px-4 pb-14 pt-4 shadow-xl transition duration-300 ease-out hover:-translate-y-2 hover:-rotate-1 hover:scale-[1.02] hover:shadow-2xl motion-reduce:transition-none md:mb-4 md:mr-[-1.5rem] md:mt-auto md:w-64">
                         <span
                             aria-hidden
-                            className="absolute -top-3 left-1/2 w-24 h-6 -translate-x-1/2 -rotate-3 mix-blend-multiply border-l border-r border-dashed border-dark/15"
-                            style={{ background: "rgba(183,148,255,0.5)" }}
+                            className="absolute -top-3 left-1/2 h-6 w-24 -translate-x-1/2 -rotate-3 border-x border-dashed border-dark/15 bg-accent/50 mix-blend-multiply"
                         />
-                        <div className="relative w-full aspect-square overflow-hidden bg-card">
+                        <div className="relative aspect-square w-full overflow-hidden bg-accent">
+                            <span
+                                aria-hidden
+                                className="absolute inset-0 opacity-25"
+                                style={{ background: "repeating-linear-gradient(-35deg, currentColor 0 1px, transparent 1px 16px)" }}
+                            />
                             {photoSrc ? (
                                 // eslint-disable-next-line @next/next/no-img-element
-                                <img src={photoSrc} alt={photoAlt} className="block w-full h-full object-cover" />
+                                <img
+                                    src={photoSrc}
+                                    alt={photoAlt}
+                                    className="relative z-10 block h-full w-full origin-bottom translate-y-2 scale-[1.8] object-contain object-bottom"
+                                />
                             ) : (
-                                <span className="flex items-center justify-center w-full h-full text-[11px] uppercase tracking-widest text-mute">
-                                    your photo
-                                </span>
+                                <Image
+                                    src="/polaroid.png"
+                                    alt={photoAlt}
+                                    fill
+                                    className="z-10 origin-bottom translate-y-10 scale-[1.8] object-contain object-bottom"
+                                    sizes="220px"
+                                />
                             )}
                         </div>
-                        <div className="absolute bottom-3 left-4 max-w-[130px] text-left font-display italic font-medium text-[13px] leading-[1.15] text-dark">
+                        <div className="absolute bottom-3 left-4 z-20 max-w-32 font-display text-xs font-medium italic leading-tight text-dark">
                             {photoCaption}
                         </div>
                     </div>
                 </div>
 
-                {/* right column — lead text + chips */}
                 <div className="flex flex-col gap-8 md:pt-16">
                     <p className="text-lg text-dark text-pretty">
                         I'm Elaine Wilberforce, also known as Lainey, a creative developer from Amsterdam.
@@ -64,39 +69,35 @@ export default function AboutSection({
                 </div>
             </section>
 
-            {/* 2 · Proof timeline */}
-            <section className="relative px-5 md:px-12 py-14 md:py-20 border-b border-dark/15 overflow-hidden">
+            <section className="relative overflow-hidden border-b border-dark/15 px-5 py-14 md:px-12 md:py-20">
                 <span
                     aria-hidden="true"
-                    className="absolute top-16 right-12 z-0 pointer-events-none select-none font-display text-custom-italic leading-none text-[clamp(64px,8vw,120px)] text-transparent opacity-[0.07] [-webkit-text-stroke:1px_var(--color-dark)]"
+                    className="pointer-events-none absolute right-12 top-16 z-0 select-none font-display text-custom-italic text-7xl leading-none text-transparent opacity-10 [-webkit-text-stroke:1px_var(--color-dark)] md:text-8xl lg:text-9xl"
                 >
                     Proof.
                 </span>
 
                 <div className="relative">
-                    <div className="flex justify-between items-baseline pb-3 mb-7 text-mute">
-                        <span className="flex items-baseline gap-4">
-                            <span className="font-display text-custom text-[14px] text-dark">PROOF</span>
-                        </span>
-
+                    <div className="mb-7 flex items-baseline justify-between pb-3 text-mute">
+                        <span className="font-display text-custom text-sm text-dark">PROOF</span>
                     </div>
 
                     <div className="flex flex-col">
                         {proof.map((e) => (
                             <div
                                 key={e.year + e.title}
-                                className="group relative grid items-baseline gap-6 py-6 border-b border-dark/15 grid-cols-[88px_1fr_24px] md:grid-cols-[140px_1fr_24px] transition-[background,padding] duration-200 hover:bg-card hover:px-2.5"
+                                className="group relative grid grid-cols-[5.5rem_1fr_auto] items-baseline gap-6 border-b border-dark/15 py-6 transition duration-200 hover:bg-card hover:px-2 md:grid-cols-[9rem_1fr_auto]"
                             >
-                                <span className="font-display text-custom-italic text-[20px] text-mute tabular-nums transition-[color,transform] duration-200 group-hover:text-dark group-hover:translate-x-0.5 md:text-[24px]">
+                                <span className="font-display text-custom-italic text-xl text-mute tabular-nums transition duration-200 group-hover:translate-x-0.5 group-hover:text-dark md:text-2xl">
                                     {e.year}
                                 </span>
                                 <span className="flex flex-col gap-2">
-                                    <span className="font-display text-custom text-[26px] leading-[1.08]!">
+                                    <span className="font-display text-custom text-2xl">
                                         {e.title}
                                     </span>
-                                    <span className="max-w-[68ch] text-[12.5px] leading-[1.45] text-dark">{e.tag}</span>
+                                    <span className="max-w-[68ch] text-xs leading-relaxed text-dark">{e.tag}</span>
                                 </span>
-                                <span className="w-2.25 h-2.25 self-center justify-self-end rounded-full bg-accent transition-all duration-250 ease-[cubic-bezier(0.2,0.8,0.2,1)] group-hover:scale-[2] group-hover:shadow-[0_0_0_6px_rgba(183,148,255,0.18)]" />
+                                <span className="size-2 self-center justify-self-end rounded-full bg-accent transition duration-300 group-hover:scale-150 group-hover:ring-4 group-hover:ring-accent/20" />
                             </div>
                         ))}
                     </div>

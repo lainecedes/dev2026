@@ -1,6 +1,7 @@
 "use client"
 
 import { useRef, useEffect } from "react"
+import Image from "next/image"
 import gsap from "gsap"
 import { HeroRects } from "@/app/components/shared/types"
 
@@ -72,7 +73,7 @@ export default function Hero() {
     }, [])
 
     return (
-        <section className="relative md:min-h-screen flex flex-col justify-center items-center px-6 py-24 overflow-hidden">
+        <section className="relative flex min-h-screen flex-col items-center overflow-visible px-6 pb-0 pt-24 md:min-h-screen md:justify-end md:pb-28 md:pt-24">
 
             {HeroRects.map((rect, i) => (
                 <div
@@ -89,21 +90,29 @@ export default function Hero() {
                 </div>
             ))}
 
-            <div
-                aria-hidden="true"
-                className="absolute left-1/2 top-1/2 z-[1] h-[min(66vh,620px)] w-[min(72vw,430px)] -translate-x-1/2 -translate-y-1/2 border border-dark/10 bg-card/45 opacity-60 shadow-[0_24px_70px_rgba(20,19,24,0.12)]"
-            />
-
-            <div className="flex flex-col gap-3 md:gap-2 relative z-10">
+            <div className="relative z-10 -mb-24 flex w-full flex-col-reverse gap-3 md:mb-0 md:w-auto md:flex-col md:gap-2">
+                <p ref={subtitleRef} className="w-full font-body text-lg leading-snug md:w-2/6 md:text-base">
+                    A 24-year old creative designer with a strong background in front-end development.
+                </p>
                 <p className="font-display text-custom-italic text-5xl md:text-7xl text-accent">
                     <span ref={(el) => { linesRef.current[0] = el }} className="block">
                         A creative<br className="md:hidden" /> developer that
                     </span>
                     <span ref={(el) => { linesRef.current[1] = el }} className="block">doesn't fit the grid.</span>
                 </p>
-                <p ref={subtitleRef} className="font-body text-lg md:text-base leading-snug w-full sm:w-2/4">
-                    A 24-year old creative designer with a strong background in front-end development.
-                </p>
+            </div>
+
+            <div
+                className="relative z-[1] h-[100vh] w-[230vw] max-w-none shrink-0 self-center md:absolute md:left-1/2 md:top-[62%] md:h-[min(145vh,1500px)] md:w-[min(140vw,1400px)] md:-translate-x-1/2 md:-translate-y-1/2"
+            >
+                <Image
+                    src="/portrait-sticker.png"
+                    alt="Portrait of Elaine Wilberforce"
+                    fill
+                    priority
+                    className="object-contain object-bottom"
+                    sizes="(max-width: 767px) 230vw, 1400px"
+                />
             </div>
         </section>
     )

@@ -13,7 +13,7 @@ export default async function Index() {
             <div className="relative overflow-hidden">
                 <WarpGrid density={HomeGrid.density} mobileDensity={HomeGrid.mobileDensity} distortion={HomeGrid.distortion} />
                 <Hero />
-                <div className="relative py-8">
+                <div className="relative z-10 -mt-32 py-8 md:mt-0">
                     <div className="rotate-[-2deg] -mx-8">
                         <Marquee
                             reverse={false}
