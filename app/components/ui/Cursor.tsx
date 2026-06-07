@@ -7,6 +7,11 @@ export default function Cursor() {
   const ring = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const pointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+    if (!pointer.matches) return;
+
+    const header = document.querySelector("header");
+    let headerRect = header?.getBoundingClientRect();
     let x = -50, y = -50, rx = -50, ry = -50;
     let over = false;
     let overHeader = false;
@@ -15,15 +20,15 @@ export default function Cursor() {
       y = e.clientY;
       over = true;
 
-      const header = document.querySelector("header");
-      if (header) {
-        const rect = header.getBoundingClientRect();
-        overHeader = e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom;
+      if (headerRect) {
+        overHeader = e.clientX >= headerRect.left && e.clientX <= headerRect.right && e.clientY >= headerRect.top && e.clientY <= headerRect.bottom;
       }
     };
+    const updateHeaderRect = () => { headerRect = header?.getBoundingClientRect(); };
     const onLeave = () => { over = false; };
     window.addEventListener("mousemove", onMove);
     window.addEventListener("mouseleave", onLeave);
+    window.addEventListener("resize", updateHeaderRect);
     let raf = 0;
     const tick = () => {
       rx += (x - rx) * 0.18;
@@ -45,6 +50,7 @@ export default function Cursor() {
       cancelAnimationFrame(raf);
       window.removeEventListener("mousemove", onMove);
       window.removeEventListener("mouseleave", onLeave);
+      window.removeEventListener("resize", updateHeaderRect);
     };
   }, []);
 

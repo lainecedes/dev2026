@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 
 // CRT-warped grid backdrop. SVG feDisplacementMap on real grid lines,
 // plus triplicate RGB ghosting. Animation runs via SMIL <animate>.
@@ -12,6 +12,7 @@ export default function WarpGrid({
   lineColor = "currentColor",
   glitchColor = "currentColor",
   className = "text-dark",
+  animate = true,
 }: {
   density: number;
   mobileDensity?: number;
@@ -20,6 +21,7 @@ export default function WarpGrid({
   lineColor?: string;
   glitchColor?: string;
   className?: string;
+  animate?: boolean;
 }) {
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
@@ -36,7 +38,8 @@ export default function WarpGrid({
   const cols = effectiveDensity;
   const rows = Math.round(effectiveDensity * 0.6);
   const amp = distortion;
-  const id = "crt-warp";
+  const id = `crt-warp-${useId().replace(/:/g, "")}`;
+  const shouldAnimate = animate && !isMobile;
 
   return (
     <div className={`absolute inset-0 z-0 pointer-events-none ${className}`} aria-hidden>
@@ -49,12 +52,14 @@ export default function WarpGrid({
               numOctaves={2}
               seed={3}
             >
-              <animate
-                attributeName="baseFrequency"
-                dur="24s"
-                repeatCount="indefinite"
-                values={`${0.004 + amp * 0.00008} ${0.02 + amp * 0.0003};${0.006 + amp * 0.00012} ${0.024 + amp * 0.0004};${0.004 + amp * 0.00008} ${0.02 + amp * 0.0003}`}
-              />
+              {shouldAnimate && (
+                <animate
+                  attributeName="baseFrequency"
+                  dur="24s"
+                  repeatCount="indefinite"
+                  values={`${0.004 + amp * 0.00008} ${0.02 + amp * 0.0003};${0.006 + amp * 0.00012} ${0.024 + amp * 0.0004};${0.004 + amp * 0.00008} ${0.02 + amp * 0.0003}`}
+                />
+              )}
             </feTurbulence>
             <feDisplacementMap in="SourceGraphic" scale={amp * 0.9} />
           </filter>

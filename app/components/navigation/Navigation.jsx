@@ -90,9 +90,11 @@ export default function Navigation() {
             <div
                 ref={menuRef}
                 aria-hidden={!isOpen}
-                className={`invisible fixed inset-x-0 top-12 z-60 h-[calc(100svh-3rem)] overflow-hidden overscroll-contain bg-dark text-bg md:hidden ${isOpen ? "pointer-events-auto" : "pointer-events-none"}`}
+                className={`invisible fixed inset-x-0 top-12 z-60 h-[calc(100svh-3rem)] overflow-hidden overscroll-contain bg-dark text-bg will-change-transform md:hidden ${isOpen ? "pointer-events-auto" : "pointer-events-none"}`}
             >
-                <WarpGrid density={8} mobileDensity={5} distortion={18} className="text-bg opacity-35" />
+                {isOpen && (
+                    <WarpGrid density={8} mobileDensity={5} distortion={18} animate={false} className="text-bg opacity-35" />
+                )}
 
                 <div className="relative z-10 flex h-full flex-col justify-between px-5 pb-8 pt-12">
                     <div ref={metaRef} className="flex items-baseline justify-between border-b border-bg/15 pb-3 font-mono text-xs font-semibold uppercase text-bg/60">

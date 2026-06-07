@@ -30,6 +30,8 @@ export default function Hero() {
 
     // Float animation on inner divs
     useEffect(() => {
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
+
         const tl = gsap.timeline()
         floatRefs.current.forEach((el, i) => {
             if (!el) return
@@ -46,20 +48,26 @@ export default function Hero() {
 
     // Mouse repulsion on wrapper divs
     useEffect(() => {
+        if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return
+
         const radius   = 220
         const strength = 35
+        let frame = 0
+        let pointerX = 0
+        let pointerY = 0
 
-        const onMouseMove = (e: MouseEvent) => {
+        const updateRects = () => {
+            frame = 0
             wrapperRefs.current.forEach((wrapper) => {
                 if (!wrapper) return
                 const { left, top, width, height } = wrapper.getBoundingClientRect()
                 const cx   = left + width / 2
                 const cy   = top  + height / 2
-                const dx   = cx - e.clientX
-                const dy   = cy - e.clientY
+                const dx   = cx - pointerX
+                const dy   = cy - pointerY
                 const dist = Math.sqrt(dx * dx + dy * dy)
 
-                if (dist < radius) {
+                if (dist > 0 && dist < radius) {
                     const force = (1 - dist / radius) * strength
                     gsap.to(wrapper, { x: (dx / dist) * force, y: (dy / dist) * force, duration: 0.4, ease: "power2.out", overwrite: "auto" })
                 } else {
@@ -68,8 +76,17 @@ export default function Hero() {
             })
         }
 
+        const onMouseMove = (e: MouseEvent) => {
+            pointerX = e.clientX
+            pointerY = e.clientY
+            if (!frame) frame = requestAnimationFrame(updateRects)
+        }
+
         window.addEventListener("mousemove", onMouseMove)
-        return () => window.removeEventListener("mousemove", onMouseMove)
+        return () => {
+            cancelAnimationFrame(frame)
+            window.removeEventListener("mousemove", onMouseMove)
+        }
     }, [])
 
     return (
