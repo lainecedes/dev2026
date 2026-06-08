@@ -9,23 +9,29 @@ export default function Marquee({
   accent: string;
   className?: string;
 }) {
-  const stream = [...items, ...items, ...items, ...items];
-
   return (
     <div className={`relative overflow-hidden ${className}`}>
       <div
-        className={`flex items-center gap-6 md:gap-9 py-3 md:py-[18px] whitespace-nowrap
+        className={`flex w-max items-center whitespace-nowrap py-3 will-change-transform md:py-[18px]
                     font-display font-bold tracking-tight50 text-3xl md:text-5xl
                     ${reverse ? "animate-scrollx-rev" : "italic animate-scrollx"}`}
       >
-        {stream.map((t, i) => (
-          <span key={i} className="inline-flex items-center gap-9">
-            <span>{t}</span>
-            <span
-              className={`w-3 h-3 flex-shrink-0 ${reverse ? "rotate-45" : "rounded-full"}`}
-              style={{ background: accent }}
-            />
-          </span>
+        {[0, 1].map((group) => (
+          <div
+            key={group}
+            aria-hidden={group === 1}
+            className="flex shrink-0 items-center gap-6 pr-6 md:gap-9 md:pr-9"
+          >
+            {items.map((item, index) => (
+              <span key={`${item}-${index}`} className="inline-flex items-center gap-9">
+                <span>{item}</span>
+                <span
+                  className={`h-3 w-3 shrink-0 ${reverse ? "rotate-45" : "rounded-full"}`}
+                  style={{ background: accent }}
+                />
+              </span>
+            ))}
+          </div>
         ))}
       </div>
     </div>

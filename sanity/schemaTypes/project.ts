@@ -157,10 +157,10 @@ export const project = defineType({
                             rows: 5,
                         }),
                         defineField({
-                            name: 'images',
+                            name: 'media',
                             type: 'array',
-                            title: 'Images',
-                            description: 'Optional. Add up to two images. They render stacked below the section body.',
+                            title: 'Media',
+                            description: 'Optional. Add up to two images or videos.',
                             validation: (Rule) => Rule.max(2),
                             of: [
                                 defineArrayMember({
@@ -176,11 +176,47 @@ export const project = defineType({
                                         }),
                                     ],
                                 }),
+                                defineArrayMember({
+                                    type: 'file',
+                                    title: 'Video',
+                                    options: {
+                                        accept: 'video/mp4,video/webm',
+                                    },
+                                    fields: [
+                                        defineField({
+                                            name: 'caption',
+                                            type: 'string',
+                                            title: 'Caption',
+                                            description: 'Optional caption shown below the video.',
+                                        }),
+                                    ],
+                                }),
+                            ],
+                        }),
+                        defineField({
+                            name: 'images',
+                            type: 'array',
+                            title: 'Legacy images',
+                            description: 'Existing images from before sections supported video. Add new media using the Media field.',
+                            readOnly: true,
+                            hidden: ({ parent }) => !parent?.images?.length,
+                            of: [
+                                defineArrayMember({
+                                    type: 'image',
+                                    options: { hotspot: true },
+                                    fields: [
+                                        defineField({
+                                            name: 'alt',
+                                            type: 'string',
+                                            title: 'Alt text',
+                                        }),
+                                    ],
+                                }),
                             ],
                         }),
                     ],
                     preview: {
-                        select: { title: 'heading', subtitle: 'body', media: 'images.0' },
+                        select: { title: 'heading', subtitle: 'body', media: 'media.0' },
                     },
                 }),
             ],

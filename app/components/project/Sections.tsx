@@ -28,7 +28,7 @@ export default function Sections({ project }: { project: ProjectDetail }) {
 
         <div className="flex flex-col gap-12 md:gap-16">
           {sections.map((s, i) => {
-            const images = s.images?.slice(0, 2) ?? [];
+            const media = (s.media?.length ? s.media : s.images)?.slice(0, 2) ?? [];
 
             return (
               <article key={s.heading} id={`s${i}`} className="flex flex-col gap-4 scroll-mt-24">
@@ -40,20 +40,36 @@ export default function Sections({ project }: { project: ProjectDetail }) {
                   {s.body}
                 </p>
 
-                {images.length > 0 && (
-                  <div className={`mt-3 grid gap-8 md:gap-6 ${images.length === 2 ? "md:grid-cols-2" : "grid-cols-1"}`}>
-                    {images.map((image, imageIndex) => (
-                      <figure key={`${s.heading}-${imageIndex}`} className="m-0 flex flex-col gap-3">
-                        <Lightbox
-                          src={urlFor(image).width(2000).url()}
-                          alt={image.alt ?? s.heading}
-                          width={image.dimensions?.width ?? 1600}
-                          height={image.dimensions?.height ?? 1200}
-                          sizes={images.length === 2 ? "(min-width: 768px) 50vw, 100vw" : "100vw"}
-                        />
-                        {image.alt && (
+                {media.length > 0 && (
+                  <div className={`mt-3 grid gap-8 md:gap-6 ${media.length === 2 ? "md:grid-cols-2" : "grid-cols-1"}`}>
+                    {media.map((item, mediaIndex) => (
+                      <figure key={`${s.heading}-${mediaIndex}`} className="m-0 flex flex-col gap-3">
+                        {item._type === "file" ? (
+                          item.url && (
+                            <video
+                              autoPlay
+                              controls
+                              loop
+                              muted
+                              playsInline
+                              preload="metadata"
+                              className="mx-auto max-h-[70svh] w-auto max-w-full rounded-lg bg-dark object-contain"
+                            >
+                              <source src={item.url} type={item.mimeType} />
+                            </video>
+                          )
+                        ) : (
+                          <Lightbox
+                            src={urlFor(item).width(2000).url()}
+                            alt={item.alt ?? s.heading}
+                            width={item.dimensions?.width ?? 1600}
+                            height={item.dimensions?.height ?? 1200}
+                            sizes={media.length === 2 ? "(min-width: 768px) 50vw, 100vw" : "100vw"}
+                          />
+                        )}
+                        {item._type !== "file" && item.alt && (
                           <figcaption className="max-w-[70ch] font-mono text-[11px] leading-[1.5] text-mute">
-                            {image.alt}
+                            {item.alt}
                           </figcaption>
                         )}
                       </figure>

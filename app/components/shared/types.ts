@@ -173,6 +173,7 @@ export type ProjectCard = {
 }
 
 export type ProjectImage = {
+    _type?: "image"
     asset?: { _ref: string; _type: string }
     dimensions?: {
         width: number
@@ -182,9 +183,21 @@ export type ProjectImage = {
     alt?: string
 }
 
+export type ProjectVideo = {
+    _type: "file"
+    asset?: { _ref: string; _type: string }
+    url?: string
+    mimeType?: string
+    caption?: string
+}
+
+export type ProjectMedia = ProjectImage | ProjectVideo
+
 export type ProjectSection = {
     heading: string
     body: string
+    media?: ProjectMedia[]
+    /** Existing section images from before the media field was introduced. */
     images?: ProjectImage[]
 }
 

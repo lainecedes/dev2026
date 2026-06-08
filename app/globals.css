@@ -30,8 +30,8 @@
     to   { transform: translateX(0); }
 }
 
-.animate-scrollx     { animation: scrollx     30s linear infinite; }
-.animate-scrollx-rev { animation: scrollx-rev 30s linear infinite; }
+.animate-scrollx     { animation: scrollx     120s linear infinite; }
+.animate-scrollx-rev { animation: scrollx-rev 120s linear infinite; }
 
 body:has([data-hide-footer]) footer {
     display: none;

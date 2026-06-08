@@ -53,6 +53,17 @@ export const PROJECT_QUERY = defineQuery(`*[ _type == "project" && slug.current 
   sections[]{
     heading,
     body,
+    media[]{
+      ...,
+      _type == "image" => {
+        "alt": alt,
+        "dimensions": asset->metadata.dimensions
+      },
+      _type == "file" => {
+        "url": asset->url,
+        "mimeType": asset->mimeType
+      }
+    },
     images[]{
       ...,
       "alt": alt,
