@@ -59,13 +59,22 @@ export default function Sections({ project }: { project: ProjectDetail }) {
                             </video>
                           )
                         ) : (
-                          <Lightbox
-                            src={urlFor(item).width(2000).url()}
-                            alt={item.alt ?? s.heading}
-                            width={item.dimensions?.width ?? 1600}
-                            height={item.dimensions?.height ?? 1200}
-                            sizes={media.length === 2 ? "(min-width: 768px) 50vw, 100vw" : "100vw"}
-                          />
+                          (() => {
+                            const imageWidth = item.dimensions?.width ?? 1600;
+                            const imageHeight = item.dimensions?.height ?? 1200;
+                            const fullWidth = Math.min(Math.max(imageWidth, 2400), 6000);
+
+                            return (
+                              <Lightbox
+                                src={urlFor(item).width(2000).auto("format").url()}
+                                fullSrc={urlFor(item).width(fullWidth).auto("format").url()}
+                                alt={item.alt ?? s.heading}
+                                width={imageWidth}
+                                height={imageHeight}
+                                sizes={media.length === 2 ? "(min-width: 768px) 50vw, 100vw" : "100vw"}
+                              />
+                            );
+                          })()
                         )}
                         {item._type !== "file" && item.alt && (
                           <figcaption className="max-w-[70ch] font-mono text-[11px] leading-[1.5] text-mute">

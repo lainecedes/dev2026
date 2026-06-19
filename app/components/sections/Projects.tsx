@@ -31,7 +31,7 @@ export default function Projects({
             </div>
 
             <div
-                className="relative flex flex-col gap-10 mb-20 md:grid md:gap-5"
+                className="relative flex flex-col gap-10 md:grid md:gap-5"
                 style={{ gridTemplateColumns: "repeat(12, 1fr)", gridTemplateRows: "repeat(10, 64px)" }}
             >
                 {projects.slice(0, 4).map((p, i) => {
@@ -86,15 +86,19 @@ export default function Projects({
                         </Link>
                     )
                 })}
+            </div>
 
-                <div className={`hidden md:block self-center justify-self-center font-display font-bold ${italic ? "italic" : ""}
-                                tracking-[-0.05em] text-[96px] leading-[0.9] text-dark opacity-[0.08]
-                                pointer-events-none text-center`}
-                    style={{ gridColumn: "6 / span 2", gridRow: "5 / span 2" }} >
-
-                    No.<br />{count}
-                </div>
-
+            <div className="mb-20 flex flex-col items-center gap-3 text-center">
+                <p className="m-0 max-w-full whitespace-nowrap text-sm leading-[1.45] text-mute md:text-base">
+                    If you&rsquo;ve made it this far, you might as well keep going.
+                </p>
+                <Link
+                    href="/archive"
+                    className="group flex items-baseline gap-3 font-display text-custom-italic text-3xl text-dark transition-colors hover:text-accent md:text-5xl"
+                >
+                    <span>Browse the archive</span>
+                    <span className="text-[0.72em] transition-transform group-hover:translate-x-1"> ↗</span>
+                </Link>
             </div>
 
         </section>
