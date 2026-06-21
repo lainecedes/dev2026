@@ -10,7 +10,7 @@ export default function Sections({ project }: { project: ProjectDetail }) {
   return (
     <section className="border-b border-rule px-5 pb-16 sm:px-8 md:px-12 md:pb-24 lg:px-16">
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-[4fr_8fr] lg:gap-16">
-        <nav className="sticky top-16 z-10 -mx-5 flex gap-4 overflow-x-auto border-y border-rule bg-bg px-5 py-3 sm:-mx-8 sm:px-8 md:-mx-12 md:px-12 lg:top-24 lg:mx-0 lg:flex-col lg:gap-2 lg:overflow-visible lg:border-0 lg:bg-transparent lg:p-0">
+        <nav className="sticky top-16 z-10 -mx-5 flex self-start gap-4 overflow-x-auto border-y border-rule bg-bg px-5 py-3 sm:-mx-8 sm:px-8 md:-mx-12 md:px-12 lg:top-24 lg:mx-0 lg:flex-col lg:gap-2 lg:overflow-visible lg:border-0 lg:bg-transparent lg:p-0">
           {sections.map((s, i) => (
             <a
               key={s.heading}
@@ -76,9 +76,14 @@ export default function Sections({ project }: { project: ProjectDetail }) {
                             );
                           })()
                         )}
-                        {item._type !== "file" && item.alt && (
+                        {item._type === "image" && item.alt && (
                           <figcaption className="max-w-[70ch] font-mono text-[11px] leading-[1.5] text-mute">
                             {item.alt}
+                          </figcaption>
+                        )}
+                        {item._type === "file" && item.caption && (
+                          <figcaption className="max-w-[70ch] font-mono text-[11px] leading-[1.5] text-mute">
+                            {item.caption}
                           </figcaption>
                         )}
                       </figure>
