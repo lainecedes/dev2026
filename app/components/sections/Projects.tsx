@@ -59,8 +59,8 @@ export default function Projects({
                                                 border border-white/10 overflow-hidden
                                                 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]">
                                 <div className="flex justify-between items-baseline font-display text-custom text-[13px] opacity-80">
-                                    <span>{pad(i + 1)}</span>
-                                    <span className="italic">&apos;25</span>
+                                    <span>{p.idx ?? pad(i + 1)}</span>
+                                    <span className="italic">{p.year ?? "'25"}</span>
                                 </div>
                                 <div className="relative overflow-hidden rounded-sm">
                                     {p.cover ? (

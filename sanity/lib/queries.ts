@@ -9,9 +9,11 @@ export const POST_QUERY = defineQuery(`*[_type == "post" && slug.current == $slu
 }`)
 
 
-// Projects op index.ts -> return array of up to 4 projects
-export const PROJECTS_QUERY = defineQuery(`*[ _type == "project" && defined(slug.current)][0...4]{
+// Home projects, ordered by the manual case index from Sanity.
+export const PROJECTS_QUERY = defineQuery(`*[_type == "project" && defined(slug.current)] | order(idx asc){
   _id,
+  idx,
+  year,
   title,
   "slug": slug.current,
   cover,

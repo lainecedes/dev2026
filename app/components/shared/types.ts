@@ -2,6 +2,8 @@ import type { ReactNode } from "react"
 
 export type Project = {
     _id: string
+    idx?: string
+    year?: string
     slug: string
     title: string
     cover: object | string
